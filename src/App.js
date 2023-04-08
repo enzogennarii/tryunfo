@@ -23,7 +23,7 @@ class App extends React.Component {
   render() {
     const onInputChange = ({ target }) => {
       this.setState({
-        [target.name]: target.value,
+        [target.name]: target.name === 'cardTrunfo' ? target.checked : target.value,
       });
     };
 

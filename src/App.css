@@ -1,0 +1,59 @@
+* {
+  border: 1px solid grey;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  font-size: 62.5%;
+}
+
+.title-page {
+  font-size: 4rem;
+  margin: 1rem auto;
+  padding: 1rem;
+  text-align: center;
+}
+
+.main-content {
+  border-radius: 2rem;
+  display: flex;
+  flex-flow: wrap;
+  margin: auto;
+  width: 90%;
+}
+
+.section-page {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+}
+
+.subtitle {
+  color: #2fc18c;
+  font-size: 3rem;
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 2.2rem;
+}
+
+input, textarea, select, option {
+  border: 1px solid black;
+  border-radius: 8px;
+  font-size: 2rem;
+}
+
+#card {
+  font-size: 2rem;
+}

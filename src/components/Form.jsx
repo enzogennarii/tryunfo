@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 class Form extends Component {
   render() {
-    const { cardName,
+    const {
+      cardName,
       cardDescription,
       cardAttr1,
       cardAttr2,
@@ -18,14 +19,15 @@ class Form extends Component {
     } = this.props;
 
     return (
-      <>
-        <h2>Adicione nova carta</h2>
+      <section className="section-page">
+        <h2 className="subtitle">Adicione nova carta</h2>
         <form>
           <label htmlFor="name-input">
             Nome
             <input
               type="text"
               id="name-input"
+              name="cardName"
               data-testid="name-input"
               value={ cardName }
               onChange={ onInputChange }
@@ -37,39 +39,43 @@ class Form extends Component {
             <textarea
               id="description-input"
               data-testid="description-input"
+              name="cardDescription"
               value={ cardDescription }
               onChange={ onInputChange }
             />
           </label>
 
           <label htmlFor="attr1-input">
-            Attr01
+            Atributo 1
             <input
               type="number"
               id="attr1-input"
               data-testid="attr1-input"
+              name="cardAttr1"
               value={ cardAttr1 }
               onChange={ onInputChange }
             />
           </label>
 
           <label htmlFor="attr2-input">
-            Attr02
+            Atributo 2
             <input
               type="number"
               id="attr2-input"
               data-testid="attr2-input"
+              name="cardAttr2"
               value={ cardAttr2 }
               onChange={ onInputChange }
             />
           </label>
 
           <label htmlFor="attr3-input">
-            Attr03
+            Atributo 3
             <input
               type="number"
               id="attr3-input"
               data-testid="attr3-input"
+              name="cardAttr3"
               value={ cardAttr3 }
               onChange={ onInputChange }
             />
@@ -81,6 +87,7 @@ class Form extends Component {
               type="text"
               id="image-input"
               data-testid="image-input"
+              name="cardImage"
               value={ cardImage }
               onChange={ onInputChange }
             />
@@ -91,6 +98,7 @@ class Form extends Component {
             <select
               id="rare-input"
               data-testid="rare-input"
+              name="cardRare"
               value={ cardRare }
               onChange={ onInputChange }
             >
@@ -120,7 +128,7 @@ class Form extends Component {
             Salvar
           </button>
         </form>
-      </>
+      </section>
     );
   }
 }

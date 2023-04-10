@@ -28,6 +28,7 @@ Input.defaultProps = {
   checked: false,
   max: '',
   min: '',
+  value: '',
 };
 
 Input.propTypes = {
@@ -39,7 +40,7 @@ Input.propTypes = {
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
 };
 
 export default Input;

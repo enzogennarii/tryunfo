@@ -25,6 +25,7 @@ class App extends Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.handlerBtnDisable = this.handlerBtnDisable.bind(this);
     this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
+    this.onRemoveButtonClick = this.onRemoveButtonClick.bind(this);
   }
 
   // Função de evento para desativar e ativar o botão Salvar de acordo com o preenchimento dos dados (Requisito 5)
@@ -105,6 +106,24 @@ class App extends Component {
     });
   }
 
+  // Função de evento para remover cartas do baralho
+  onRemoveButtonClick({ target }) {
+    const { savedCards } = this.state;
+    const { name } = target;
+
+    const cardDeleted = savedCards.filter((card) => card.cardName === name)[0];
+    console.log(cardDeleted);
+    if (cardDeleted.cardTrunfo) {
+      this.setState({
+        hasTrunfo: false,
+      });
+    }
+
+    this.setState({
+      savedCards: savedCards.filter((card) => card.cardName !== name),
+    });
+  }
+
   render() {
     const {
       cardName,
@@ -158,7 +177,10 @@ class App extends Component {
         </section>
 
         {!(savedCards.length) ? <p>Baralho vazio!</p> : (
-          <SavedCards deck={ savedCards } />
+          <SavedCards
+            deck={ savedCards }
+            onClickRemoveBtn={ this.onRemoveButtonClick }
+          />
         )}
       </div>
     );

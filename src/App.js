@@ -85,6 +85,11 @@ class App extends Component {
         cardRare: prev.cardRare,
         cardTrunfo: prev.cardTrunfo,
       });
+      if (prev.cardTrunfo) {
+        this.setState({
+          hasTrunfo: true,
+        });
+      }
       return {
         cardName: '',
         cardDescription: '',
@@ -111,6 +116,7 @@ class App extends Component {
       cardTrunfo,
       hasTrunfo,
       isSaveButtonDisabled,
+      savedCards,
     } = this.state;
 
     return (
@@ -132,6 +138,7 @@ class App extends Component {
               isSaveButtonDisabled={ isSaveButtonDisabled }
               onInputChange={ this.onInputChange }
               onSaveButtonClick={ this.onSaveButtonClick }
+              savedCards={ savedCards }
             />
           </section>
           <section className="section-page">

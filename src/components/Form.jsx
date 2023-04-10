@@ -99,14 +99,16 @@ class Form extends Component {
           </select>
         </label>
 
-        { hasTrunfo ? <p>Você já tem um Super Trunfo em seu baralho</p> : (<Input
-          checked={ cardTrunfo }
-          legend="Super Trybe Trunfo"
-          id="trunfo-input"
-          name="cardTrunfo"
-          onChange={ onInputChange }
-          type="checkbox"
-        />) }
+        {hasTrunfo ? <p>Você já tem um Super Trunfo em seu baralho</p> : (
+          <Input
+            checked={ cardTrunfo }
+            legend="Super Trybe Trunfo"
+            id="trunfo-input"
+            name="cardTrunfo"
+            onChange={ onInputChange }
+            type="checkbox"
+          />
+        )}
 
         <Button
           id="save-button"

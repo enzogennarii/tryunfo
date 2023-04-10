@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import SavedCards from './components/SavedCards';
 import './App.css';
 
 class App extends Component {
@@ -155,6 +156,10 @@ class App extends Component {
             />
           </section>
         </section>
+
+        {!(savedCards.length) ? <p>Baralho vazio!</p> : (
+          <SavedCards deck={ savedCards } />
+        )}
       </div>
     );
   }

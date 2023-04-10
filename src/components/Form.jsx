@@ -112,6 +112,8 @@ class Form extends Component {
           id="save-button"
           disabled={ isSaveButtonDisabled }
           onClick={ onSaveButtonClick }
+          text="Salvar"
+          type="button"
         />
       </form>
     );

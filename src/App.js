@@ -20,80 +20,86 @@ class App extends Component {
       isSaveButtonDisabled: true,
       savedCards: [],
     };
+
+    this.onInputChange = this.onInputChange.bind(this);
+    this.handlerBtnDisable = this.handlerBtnDisable.bind(this);
+    this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
+  }
+
+  // Função de evento para desativar e ativar o botão Salvar de acordo com o preenchimento dos dados (Requisito 5)
+  handlerBtnDisable() {
+    // Função para verificar se o dado do input está vazio
+    const isEmpty = (str) => str === '';
+
+    // Função para verificar se os pontos dos atributos estão dentro dos limites
+    const maxAndMinValues = (arr) => {
+      const maxValue = 90;
+      const maxTotalValue = 210;
+
+      const verify0to90 = arr.some((num) => num < 0 || num > maxValue);
+      const verifyLimit = (arr.reduce((acc, curr) => {
+        acc += curr;
+        return acc;
+      }, 0) > maxTotalValue);
+
+      return (verify0to90 || verifyLimit);
+    };
+
+    this.setState(({
+      cardName,
+      cardDescription,
+      cardImage,
+      cardRare,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+    }) => {
+      const inputTexts = [cardName, cardDescription, cardImage, cardRare];
+      const validateTexts = inputTexts.some((text) => isEmpty(text));
+      const atributes = [Number(cardAttr1), Number(cardAttr2), Number(cardAttr3)];
+      const validateAtributes = maxAndMinValues(atributes);
+      return {
+        isSaveButtonDisabled: (validateTexts || validateAtributes),
+      };
+    });
+  }
+
+  // Função de evento genérico para salvar os dados dos inputs no estado do componente App (Requisito 4)
+  onInputChange({ target }) {
+    this.setState({
+      [target.name]: target.name === 'cardTrunfo' ? target.checked : target.value,
+    }, this.handlerBtnDisable);
+  }
+
+  // Função de evento para salvar em um objeto os dados do formulário, no estado savedCards que é um array que guarda as cartas salvas (Requisito 6)
+  onSaveButtonClick() {
+    this.setState((prev) => {
+      const cardSavedList = [...prev.savedCards];
+      cardSavedList.push({
+        cardName: prev.cardName,
+        cardDescription: prev.cardDescription,
+        cardAttr1: prev.cardAttr1,
+        cardAttr2: prev.cardAttr2,
+        cardAttr3: prev.cardAttr3,
+        cardImage: prev.cardImage,
+        cardRare: prev.cardRare,
+        cardTrunfo: prev.cardTrunfo,
+      });
+      return {
+        cardName: '',
+        cardDescription: '',
+        cardAttr1: '0',
+        cardAttr2: '0',
+        cardAttr3: '0',
+        cardImage: '',
+        cardRare: 'normal',
+        cardTrunfo: false,
+        savedCards: cardSavedList,
+      };
+    });
   }
 
   render() {
-    // Função de evento para desativar e ativar o botão Salvar de acordo com o preenchimento dos dados (Requisito 5)
-    const handlerBtnDisable = () => {
-      // Função para verificar se o dado do input está vazio
-      const isEmpty = (str) => str === '';
-
-      // Função para verificar se os pontos dos atributos estão dentro dos limites
-      const maxValue = 90;
-      const maxTotalValue = 210;
-      const maxAndMinValues = (arr) => {
-        const verify0to90 = arr.some((num) => num < 0 || num > maxValue);
-        const verifyLimit = (arr.reduce((acc, curr) => {
-          acc += curr;
-          return acc;
-        }, 0) > maxTotalValue);
-        return (verify0to90 || verifyLimit);
-      };
-
-      this.setState(({
-        cardName,
-        cardDescription,
-        cardImage,
-        cardRare,
-        cardAttr1,
-        cardAttr2,
-        cardAttr3,
-      }) => {
-        const inputTexts = [cardName, cardDescription, cardImage, cardRare];
-        const validateTexts = inputTexts.some((text) => isEmpty(text));
-        const atributes = [Number(cardAttr1), Number(cardAttr2), Number(cardAttr3)];
-        const validateAtributes = maxAndMinValues(atributes);
-        return {
-          isSaveButtonDisabled: (validateTexts || validateAtributes),
-        };
-      });
-    };
-
-    // Função de evento genérico para salvar os dados dos inputs no estado do componente App (Requisito 4)
-    const onInputChange = ({ target }) => {
-      this.setState({
-        [target.name]: target.name === 'cardTrunfo' ? target.checked : target.value,
-      }, handlerBtnDisable);
-    };
-
-    // Função de evento para salvar em um objeto os dados do formulário, no estado savedCards que é um array que guarda as cartas salvas (Requisito 6)
-    const onSaveButtonClick = () => {
-      this.setState((prev) => {
-        const cardSavedList = [...prev.savedCards];
-        cardSavedList.push({
-          cardName: prev.cardName,
-          cardDescription: prev.cardDescription,
-          cardAttr1: prev.cardAttr1,
-          cardAttr2: prev.cardAttr2,
-          cardAttr3: prev.cardAttr3,
-          cardImage: prev.cardImage,
-          cardRare: prev.cardRare,
-          cardTrunfo: prev.cardTrunfo,
-        });
-        return {
-          cardName: '',
-          cardDescription: '',
-          cardAttr1: '0',
-          cardAttr2: '0',
-          cardAttr3: '0',
-          cardImage: '',
-          cardRare: 'normal',
-          cardTrunfo: false,
-          savedCards: cardSavedList,
-        };
-      });
-    };
-
     const {
       cardName,
       cardDescription,
@@ -105,7 +111,6 @@ class App extends Component {
       cardTrunfo,
       hasTrunfo,
       isSaveButtonDisabled,
-      // savedCards,
     } = this.state;
 
     return (
@@ -125,8 +130,8 @@ class App extends Component {
               cardTrunfo={ cardTrunfo }
               hasTrunfo={ hasTrunfo }
               isSaveButtonDisabled={ isSaveButtonDisabled }
-              onInputChange={ onInputChange }
-              onSaveButtonClick={ onSaveButtonClick }
+              onInputChange={ this.onInputChange }
+              onSaveButtonClick={ this.onSaveButtonClick }
             />
           </section>
           <section className="section-page">

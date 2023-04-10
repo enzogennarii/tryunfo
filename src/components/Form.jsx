@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Input from './Input';
+import TextArea from './TextArea';
+import Button from './Button';
 
 class Form extends Component {
   render() {
     const {
+      title,
       cardName,
       cardDescription,
       cardAttr1,
@@ -19,128 +23,103 @@ class Form extends Component {
     } = this.props;
 
     return (
-      <section className="section-page">
-        <h2 className="subtitle">Adicione nova carta</h2>
-        <form>
-          <label htmlFor="name-input">
-            Nome
-            <input
-              type="text"
-              id="name-input"
-              name="cardName"
-              data-testid="name-input"
-              value={ cardName }
-              onChange={ onInputChange }
-            />
-          </label>
+      <form>
+        <h2 className="subtitle">{ title }</h2>
+        <Input
+          id="name-input"
+          legend="Nome"
+          name="cardName"
+          onChange={ onInputChange }
+          type="text"
+          value={ cardName }
+        />
 
-          <label htmlFor="description-input">
-            Descrição
-            <textarea
-              id="description-input"
-              data-testid="description-input"
-              name="cardDescription"
-              value={ cardDescription }
-              onChange={ onInputChange }
-            />
-          </label>
+        <TextArea
+          id="description-input"
+          legend="Descrição"
+          name="cardDescription"
+          onChange={ onInputChange }
+          value={ cardDescription }
+        />
 
-          <label htmlFor="attr1-input">
-            Atributo 1
-            <input
-              type="number"
-              id="attr1-input"
-              data-testid="attr1-input"
-              name="cardAttr1"
-              min="0"
-              max="90"
-              value={ cardAttr1 }
-              onChange={ onInputChange }
-            />
-          </label>
+        <Input
+          id="attr1-input"
+          legend="Atributo 1"
+          max="90"
+          min="0"
+          name="cardAttr1"
+          onChange={ onInputChange }
+          type="number"
+          value={ cardAttr1 }
+        />
 
-          <label htmlFor="attr2-input">
-            Atributo 2
-            <input
-              type="number"
-              id="attr2-input"
-              data-testid="attr2-input"
-              min="0"
-              max="90"
-              name="cardAttr2"
-              value={ cardAttr2 }
-              onChange={ onInputChange }
-            />
-          </label>
+        <Input
+          id="attr2-input"
+          legend="Atributo 2"
+          max="90"
+          min="0"
+          name="cardAttr2"
+          onChange={ onInputChange }
+          type="number"
+          value={ cardAttr2 }
+        />
 
-          <label htmlFor="attr3-input">
-            Atributo 3
-            <input
-              type="number"
-              id="attr3-input"
-              data-testid="attr3-input"
-              min="0"
-              max="90"
-              name="cardAttr3"
-              value={ cardAttr3 }
-              onChange={ onInputChange }
-            />
-          </label>
+        <Input
+          id="attr3-input"
+          legend="Atributo 3"
+          max="90"
+          min="0"
+          name="cardAttr3"
+          onChange={ onInputChange }
+          type="number"
+          value={ cardAttr3 }
+        />
 
-          <label htmlFor="image-input">
-            Imagem
-            <input
-              type="text"
-              id="image-input"
-              data-testid="image-input"
-              name="cardImage"
-              value={ cardImage }
-              onChange={ onInputChange }
-            />
-          </label>
+        <Input
+          id="image-input"
+          legend="Imagem"
+          name="cardImage"
+          onChange={ onInputChange }
+          type="text"
+          value={ cardImage }
+        />
 
-          <label htmlFor="rare-input">
-            Raridade
-            <select
-              id="rare-input"
-              data-testid="rare-input"
-              name="cardRare"
-              value={ cardRare }
-              onChange={ onInputChange }
-            >
-              <option value="normal">Normal</option>
-              <option value="raro">Raro</option>
-              <option value="muito raro">Muito raro</option>
-            </select>
-          </label>
-
-          <label htmlFor="trunfo-input">
-            Super Trybe Trunfo
-            <input
-              type="checkbox"
-              id="trunfo-input"
-              name="cardTrunfo"
-              data-testid="trunfo-input"
-              checked={ cardTrunfo }
-              onChange={ onInputChange }
-            />
-          </label>
-
-          <button
-            className="btn-submit"
-            data-testid="save-button"
-            disabled={ isSaveButtonDisabled }
-            onClick={ onSaveButtonClick }
+        <label htmlFor="rare-input">
+          Raridade
+          <select
+            data-testid="rare-input"
+            id="rare-input"
+            name="cardRare"
+            onChange={ onInputChange }
+            value={ cardRare }
           >
-            Salvar
-          </button>
-        </form>
-      </section>
+            <option value="normal">Normal</option>
+            <option value="raro">Raro</option>
+            <option value="muito raro">Muito raro</option>
+          </select>
+        </label>
+
+        <Input
+          checked={ cardTrunfo }
+          legend="Super Trybe Trunfo"
+          id="trunfo-input"
+          name="cardTrunfo"
+          onChange={ onInputChange }
+          type="checkbox"
+        />
+
+        <Button
+          id="save-button"
+          disabled={ isSaveButtonDisabled }
+          onClick={ onSaveButtonClick }
+        />
+      </form>
     );
   }
 }
 
 Form.propTypes = {
+  title: PropTypes.string.isRequired,
   cardName: PropTypes.string.isRequired,
   cardDescription: PropTypes.string.isRequired,
   cardAttr1: PropTypes.string.isRequired,

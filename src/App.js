@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
 import './App.css';
 
-class App extends React.Component {
+class App extends Component {
   constructor() {
     super();
+
     this.state = {
       cardName: '',
       cardDescription: '',
@@ -22,18 +23,22 @@ class App extends React.Component {
   }
 
   render() {
+    // Função de evento para desativar e ativar o botão Salvar de acordo com o preenchimento dos dados (Requisito 5)
     const handlerBtnDisable = () => {
-      const isEmpty = (str) => str.length === 0;
+      // Função para verificar se o dado do input está vazio
+      const isEmpty = (str) => str === '';
 
+      // Função para verificar se os pontos dos atributos estão dentro dos limites
       const maxValue = 90;
       const maxTotalValue = 210;
-      const maxAndMinValues = (arr) => !(
-        (arr.every((num) => num >= 0 && num <= maxValue))
-        && (arr.reduce((acc, curr) => {
+      const maxAndMinValues = (arr) => {
+        const verify0to90 = arr.some((num) => num < 0 || num > maxValue);
+        const verifyLimit = (arr.reduce((acc, curr) => {
           acc += curr;
           return acc;
-        }, 0) <= maxTotalValue)
-      );
+        }, 0) > maxTotalValue);
+        return (verify0to90 || verifyLimit);
+      };
 
       this.setState(({
         cardName,
@@ -49,30 +54,19 @@ class App extends React.Component {
         const atributes = [Number(cardAttr1), Number(cardAttr2), Number(cardAttr3)];
         const validateAtributes = maxAndMinValues(atributes);
         return {
-          isSaveButtonDisabled: (validateTexts && validateAtributes),
+          isSaveButtonDisabled: (validateTexts || validateAtributes),
         };
       });
     };
 
-    const {
-      cardName,
-      cardDescription,
-      cardAttr1,
-      cardAttr2,
-      cardAttr3,
-      cardImage,
-      cardRare,
-      cardTrunfo,
-      hasTrunfo,
-      isSaveButtonDisabled,
-    } = this.state;
-
+    // Função de evento genérico para salvar os dados dos inputs no estado do componente App (Requisito 4)
     const onInputChange = ({ target }) => {
       this.setState({
         [target.name]: target.name === 'cardTrunfo' ? target.checked : target.value,
       }, handlerBtnDisable);
     };
 
+    // Função de evento para salvar em um objeto os dados do formulário, no estado savedCards que é um array que guarda as cartas salvas (Requisito 6)
     const onSaveButtonClick = () => {
       this.setState((prev) => {
         const cardSavedList = [...prev.savedCards];
@@ -100,34 +94,54 @@ class App extends React.Component {
       });
     };
 
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+      hasTrunfo,
+      isSaveButtonDisabled,
+      // savedCards,
+    } = this.state;
+
     return (
       <div>
         <h1 className="title-page">Tryunfo</h1>
         <section className="main-content">
-          <Form
-            cardName={ cardName }
-            cardDescription={ cardDescription }
-            cardAttr1={ cardAttr1 }
-            cardAttr2={ cardAttr2 }
-            cardAttr3={ cardAttr3 }
-            cardImage={ cardImage }
-            cardRare={ cardRare }
-            cardTrunfo={ cardTrunfo }
-            hasTrunfo={ hasTrunfo }
-            isSaveButtonDisabled={ isSaveButtonDisabled }
-            onInputChange={ onInputChange }
-            onSaveButtonClick={ onSaveButtonClick }
-          />
-          <Card
-            cardName={ cardName }
-            cardDescription={ cardDescription }
-            cardAttr1={ cardAttr1 }
-            cardAttr2={ cardAttr2 }
-            cardAttr3={ cardAttr3 }
-            cardImage={ cardImage }
-            cardRare={ cardRare }
-            cardTrunfo={ cardTrunfo }
-          />
+          <section className="section-page">
+            <Form
+              title="Adicione nova carta"
+              cardName={ cardName }
+              cardDescription={ cardDescription }
+              cardAttr1={ cardAttr1 }
+              cardAttr2={ cardAttr2 }
+              cardAttr3={ cardAttr3 }
+              cardImage={ cardImage }
+              cardRare={ cardRare }
+              cardTrunfo={ cardTrunfo }
+              hasTrunfo={ hasTrunfo }
+              isSaveButtonDisabled={ isSaveButtonDisabled }
+              onInputChange={ onInputChange }
+              onSaveButtonClick={ onSaveButtonClick }
+            />
+          </section>
+          <section className="section-page">
+            <h2 className="subtitle">Pré-visualização</h2>
+            <Card
+              cardName={ cardName }
+              cardDescription={ cardDescription }
+              cardAttr1={ cardAttr1 }
+              cardAttr2={ cardAttr2 }
+              cardAttr3={ cardAttr3 }
+              cardImage={ cardImage }
+              cardRare={ cardRare }
+              cardTrunfo={ cardTrunfo }
+            />
+          </section>
         </section>
       </div>
     );

@@ -15,31 +15,28 @@ class Card extends Component {
     } = this.props;
 
     return (
-      <section className="section-page">
-        <h2 className="subtitle">Pré-visualização</h2>
-        <section id="card">
-          <h3 data-testid="name-card">{ cardName }</h3>
-          <img src={ cardImage } alt={ cardName } data-testid="image-card" />
-          <p data-testid="rare-card">{ cardRare }</p>
-          <p data-testid="description-card">{ cardDescription }</p>
-          <div className="atribute-container">
-            <p>Attr1</p>
-            <p data-testid="attr1-card">{ cardAttr1 }</p>
-          </div>
-          <div className="atribute-container">
-            <p>Attr2</p>
-            <p data-testid="attr2-card">{ cardAttr2 }</p>
-          </div>
-          <div className="atribute-container">
-            <p>Attr3</p>
-            <p data-testid="attr3-card">{ cardAttr3 }</p>
-          </div>
-          { cardTrunfo ? (
-            <p data-testid="trunfo-card">Super Trunfo</p>
-          ) : (
-            <p />
-          ) }
-        </section>
+      <section id="card">
+        <h3 data-testid="name-card">{ cardName }</h3>
+        <img src={ cardImage } alt={ cardName } data-testid="image-card" />
+        <p data-testid="rare-card">{ cardRare }</p>
+        <p data-testid="description-card">{ cardDescription }</p>
+        <div className="atribute-container">
+          <p>Attr1</p>
+          <p data-testid="attr1-card">{ cardAttr1 }</p>
+        </div>
+        <div className="atribute-container">
+          <p>Attr2</p>
+          <p data-testid="attr2-card">{ cardAttr2 }</p>
+        </div>
+        <div className="atribute-container">
+          <p>Attr3</p>
+          <p data-testid="attr3-card">{ cardAttr3 }</p>
+        </div>
+        { cardTrunfo ? (
+          <p data-testid="trunfo-card">Super Trunfo</p>
+        ) : (
+          <p />
+        ) }
       </section>
     );
   }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
-import SavedCards from './components/SavedCards';
+import DeckSection from './components/DeckSection';
 import './App.css';
 
 class App extends Component {
@@ -20,12 +20,25 @@ class App extends Component {
       hasTrunfo: false,
       isSaveButtonDisabled: true,
       savedCards: [],
+      nameFilter: '',
+      rarityFilter: 'todas',
+      trunfoFilter: false,
+      filteredCards: [],
     };
 
     this.onInputChange = this.onInputChange.bind(this);
     this.handlerBtnDisable = this.handlerBtnDisable.bind(this);
     this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
     this.onRemoveButtonClick = this.onRemoveButtonClick.bind(this);
+    this.handleFilter = this.handleFilter.bind(this);
+  }
+
+  componentDidUpdate(_pProps, pState) {
+    const { nameFilter, rarityFilter, trunfoFilter } = this.state;
+    if (pState.nameFilter !== nameFilter || pState.rarityFilter !== rarityFilter
+      || pState.trunfoFilter !== trunfoFilter) {
+      this.handleFilter();
+    }
   }
 
   // Função de evento para desativar e ativar o botão Salvar de acordo com o preenchimento dos dados (Requisito 5)
@@ -66,11 +79,25 @@ class App extends Component {
     });
   }
 
-  // Função de evento genérico para salvar os dados dos inputs no estado do componente App (Requisito 4)
-  onInputChange({ target }) {
-    this.setState({
-      [target.name]: target.name === 'cardTrunfo' ? target.checked : target.value,
-    }, this.handlerBtnDisable);
+  // Função evento para filtrar por nome as cartas do baralho (Requisito 10)
+  handleFilter() {
+    const { savedCards, nameFilter, rarityFilter, trunfoFilter } = this.state;
+
+    if (trunfoFilter) {
+      this.setState({
+        filteredCards: savedCards.filter((c) => c.cardTrunfo),
+      });
+    } else if (rarityFilter === 'todas') {
+      this.setState({
+        filteredCards: savedCards.filter(({ cardName }) => cardName.includes(nameFilter)),
+      });
+    } else {
+      this.setState({
+        filteredCards: savedCards.filter(({ cardName, cardRare }) => (
+          cardName.includes(nameFilter) && cardRare === rarityFilter
+        )),
+      });
+    }
   }
 
   // Função de evento para salvar em um objeto os dados do formulário, no estado savedCards que é um array que guarda as cartas salvas (Requisito 6)
@@ -102,26 +129,36 @@ class App extends Component {
         cardRare: 'normal',
         cardTrunfo: false,
         savedCards: cardSavedList,
+        filteredCards: cardSavedList,
+        nameFilter: '',
       };
     });
   }
 
   // Função de evento para remover cartas do baralho
-  onRemoveButtonClick({ target }) {
+  onRemoveButtonClick({ target: { name } }) {
     const { savedCards } = this.state;
-    const { name } = target;
 
-    const cardDeleted = savedCards.filter((card) => card.cardName === name)[0];
-    console.log(cardDeleted);
+    const cardDeleted = savedCards.find((card) => card.cardName === name);
     if (cardDeleted.cardTrunfo) {
       this.setState({
         hasTrunfo: false,
       });
     }
 
+    this.setState((prev) => ({
+      savedCards: prev.savedCards.filter((c) => c.cardName !== name),
+      filteredCards: prev.savedCards
+        .filter((c) => c.cardName !== name && c.cardName.includes(prev.nameFilter)),
+    }));
+  }
+
+  // Função de evento genérico para salvar os dados dos inputs no estado do componente App (Requisito 4)
+  onInputChange({ target }) {
     this.setState({
-      savedCards: savedCards.filter((card) => card.cardName !== name),
-    });
+      [target.name]: target.name === 'cardTrunfo' || target.name === 'trunfoFilter'
+        ? target.checked : target.value,
+    }, this.handlerBtnDisable);
   }
 
   render() {
@@ -136,16 +173,19 @@ class App extends Component {
       cardTrunfo,
       hasTrunfo,
       isSaveButtonDisabled,
-      savedCards,
+      filteredCards,
+      nameFilter,
+      rarityFilter,
+      trunfoFilter,
     } = this.state;
 
     return (
       <div>
         <h1 className="title-page">Tryunfo</h1>
+
         <section className="main-content">
           <section className="section-page">
             <Form
-              title="Adicione nova carta"
               cardName={ cardName }
               cardDescription={ cardDescription }
               cardAttr1={ cardAttr1 }
@@ -158,9 +198,9 @@ class App extends Component {
               isSaveButtonDisabled={ isSaveButtonDisabled }
               onInputChange={ this.onInputChange }
               onSaveButtonClick={ this.onSaveButtonClick }
-              savedCards={ savedCards }
             />
           </section>
+
           <section className="section-page">
             <h2 className="subtitle">Pré-visualização</h2>
             <Card
@@ -176,12 +216,14 @@ class App extends Component {
           </section>
         </section>
 
-        {!(savedCards.length) ? <p>Baralho vazio!</p> : (
-          <SavedCards
-            deck={ savedCards }
-            onClickRemoveBtn={ this.onRemoveButtonClick }
-          />
-        )}
+        <DeckSection
+          deck={ filteredCards }
+          handleChange={ this.onInputChange }
+          nameFilter={ nameFilter }
+          onClickRemoveBtn={ this.onRemoveButtonClick }
+          rarityFilter={ rarityFilter }
+          trunfoFilter={ trunfoFilter }
+        />
       </div>
     );
   }

@@ -8,31 +8,28 @@ class SavedCards extends Component {
     const { deck, onClickRemoveBtn } = this.props;
 
     return (
-      <section className="saved-cards-section">
-        <h2 className="deck-title">Todas as cartas</h2>
-        <ul>
-          {deck.map((card) => (
-            <li key={ card.cardName }>
-              <Card
-                cardName={ card.cardName }
-                cardDescription={ card.cardDescription }
-                cardAttr1={ card.cardAttr1 }
-                cardAttr2={ card.cardAttr2 }
-                cardAttr3={ card.cardAttr3 }
-                cardImage={ card.cardImage }
-                cardRare={ card.cardRare }
-                cardTrunfo={ card.cardTrunfo }
-              />
-              <Button
-                id="delete-button"
-                name={ card.cardName }
-                onClick={ onClickRemoveBtn }
-                text="Excluir"
-              />
-            </li>
-          ))}
-        </ul>
-      </section>
+      <ul>
+        { deck.map((card) => (
+          <li key={ card.cardName }>
+            <Card
+              cardName={ card.cardName }
+              cardDescription={ card.cardDescription }
+              cardAttr1={ card.cardAttr1 }
+              cardAttr2={ card.cardAttr2 }
+              cardAttr3={ card.cardAttr3 }
+              cardImage={ card.cardImage }
+              cardRare={ card.cardRare }
+              cardTrunfo={ card.cardTrunfo }
+            />
+            <Button
+              id="delete-button"
+              name={ card.cardName }
+              onClick={ onClickRemoveBtn }
+              text="Excluir"
+            />
+          </li>
+        ))}
+      </ul>
     );
   }
 }

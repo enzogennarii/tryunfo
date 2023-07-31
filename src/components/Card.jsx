@@ -15,28 +15,40 @@ class Card extends Component {
     } = this.props;
 
     return (
-      <section id="card">
-        <h3 data-testid="name-card">{ cardName }</h3>
-        <img src={ cardImage } alt={ cardName } data-testid="image-card" />
-        <p data-testid="rare-card">{ cardRare }</p>
-        <p data-testid="description-card">{ cardDescription }</p>
-        <div className="atribute-container">
-          <p>Attr1</p>
-          <p data-testid="attr1-card">{ cardAttr1 }</p>
+      <section className="card-container">
+        <div className="border-card">
+          <div className="card">
+            <h3 data-testid="name-card" className="name-card">{ cardName }</h3>
+            <img
+              src={ cardImage }
+              alt={ cardName }
+              data-testid="image-card"
+              className="img-card"
+            />
+            <p data-testid="rare-card" className="rare-card">{ cardRare }</p>
+            <p
+              data-testid="description-card"
+              className="description-card"
+            >
+              { cardDescription }
+            </p>
+
+            <div className="atribute-container">
+              <p className="atribute-name">Attr1</p>
+              <p data-testid="attr1-card" className="atribute-value">{ cardAttr1 }</p>
+            </div>
+            <div className="atribute-container">
+              <p className="atribute-name">Attr2</p>
+              <p data-testid="attr2-card" className="atribute-value">{ cardAttr2 }</p>
+            </div>
+            <div className="atribute-container">
+              <p className="atribute-name">Attr3</p>
+              <p data-testid="attr3-card" className="atribute-value">{ cardAttr3 }</p>
+            </div>
+
+            { cardTrunfo ? <p data-testid="trunfo-card">Super Trunfo</p> : <p /> }
+          </div>
         </div>
-        <div className="atribute-container">
-          <p>Attr2</p>
-          <p data-testid="attr2-card">{ cardAttr2 }</p>
-        </div>
-        <div className="atribute-container">
-          <p>Attr3</p>
-          <p data-testid="attr3-card">{ cardAttr3 }</p>
-        </div>
-        { cardTrunfo ? (
-          <p data-testid="trunfo-card">Super Trunfo</p>
-        ) : (
-          <p />
-        ) }
       </section>
     );
   }

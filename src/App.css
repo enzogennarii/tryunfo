@@ -1,5 +1,4 @@
-* {
-  border: 1px solid grey;
+* { /* border: 1px solid grey; */
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -34,7 +33,7 @@
 
 .subtitle {
   color: #2fc18c;
-  font-size: 3rem;
+  font-size: 2.8rem;
   font-style: italic;
   text-transform: uppercase;
 }
@@ -64,6 +63,82 @@ input, textarea, select, option {
   width: 11.5rem;
 }
 
+.card-container * {
+  border: 1px solid gray;
+}
+
+.card-container {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 0.38rem 1.8rem rgba(0, 0, 0, 0.25);
+  font-size: 2.7rem;
+  height: 53.4rem;
+  padding: 9.7px;
+  width: 35.8rem;
+}
+
+.border-card {
+  background-color: #036b52;
+  border-radius: 1rem;
+  height: 100%;
+  padding: 9px;
+  width: 100%;
+}
+
 .card {
-  font-size: 2rem;
+  align-items: center;
+  background-color: white;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+.name-card {
+  background-color: #023031;
+  border-radius: 1rem 1rem 0 0;
+  color: white;
+  font-size: 2.8rem;
+  padding: 3px;
+  text-align: center;
+  width: 100%;
+}
+
+.img-card {
+  height: 100%;
+  width: 100%;
+}
+
+/* .rareCard {
+
+} */
+
+.atribute-container {
+  background-color: #f0f2f5;
+  border-radius: 0.8rem;
+  display: flex;
+  flex-flow: nowrap;
+  flex-direction: row;
+  font-size: 1.6rem;
+  height: 3rem;
+  justify-content: space-between;
+  margin: 0.5rem 1.5rem;
+  width: 80%;
+}
+
+.atribute-name {
+  height: 100%;
+  padding-left: 1rem;
+  width: 100%;
+}
+
+.atribute-value {
+  background-color: #023031;
+  border-radius: 0 0.8rem 0.8rem 0;
+  color: white;
+  height: 100%;
+  text-align: center;
+  width: 4.6rem;
 }

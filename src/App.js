@@ -31,6 +31,7 @@ class App extends Component {
     this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
     this.onRemoveButtonClick = this.onRemoveButtonClick.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
+    this.onClearFiltersClick = this.onClearFiltersClick.bind(this);
   }
 
   componentDidUpdate(_pProps, pState) {
@@ -98,6 +99,15 @@ class App extends Component {
         )),
       });
     }
+  }
+
+  // Função de evento para limpar os filtros aplicados no baralho
+  onClearFiltersClick() {
+    this.setState({
+      nameFilter: '',
+      rarityFilter: 'todas',
+      trunfoFilter: false,
+    });
   }
 
   // Função de evento para salvar em um objeto os dados do formulário, no estado savedCards que é um array que guarda as cartas salvas (Requisito 6)
@@ -174,6 +184,7 @@ class App extends Component {
       hasTrunfo,
       isSaveButtonDisabled,
       filteredCards,
+      savedCards,
       nameFilter,
       rarityFilter,
       trunfoFilter,
@@ -220,8 +231,10 @@ class App extends Component {
           deck={ filteredCards }
           handleChange={ this.onInputChange }
           nameFilter={ nameFilter }
+          onClearFiltersClick={ this.onClearFiltersClick }
           onClickRemoveBtn={ this.onRemoveButtonClick }
           rarityFilter={ rarityFilter }
+          totalCards={ savedCards.length }
           trunfoFilter={ trunfoFilter }
         />
       </div>

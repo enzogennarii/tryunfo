@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Input from './Input';
+import Button from './Button';
 import SavedCards from './SavedCards';
 
 class DeckSection extends Component {
   render() {
     const {
       deck,
+      totalCards,
       handleChange,
       nameFilter,
       rarityFilter,
       trunfoFilter,
+      onClearFiltersClick,
       onClickRemoveBtn } = this.props;
+
+    const hasFiltersApplied = nameFilter !== '' || rarityFilter !== 'todas' || trunfoFilter;
 
     return (
       <section className="saved-cards-section">
@@ -54,9 +59,31 @@ class DeckSection extends Component {
             onChange={ handleChange }
             type="checkbox"
           />
+
+          { hasFiltersApplied && (
+            <Button
+              id="clear-filters-button"
+              onClick={ onClearFiltersClick }
+              text="Limpar filtros"
+            />
+          ) }
         </fieldset>
 
-        {!deck.length ? <p>Baralho vazio!</p> : (
+        { totalCards > 0 && (
+          <p className="deck-count">
+            { hasFiltersApplied
+              ? `Exibindo ${deck.length} de ${totalCards} carta${totalCards === 1 ? '' : 's'}`
+              : `${totalCards} carta${totalCards === 1 ? '' : 's'} no baralho` }
+          </p>
+        ) }
+
+        {!deck.length ? (
+          <p className="empty-deck">
+            { totalCards === 0
+              ? 'Baralho vazio!'
+              : 'Nenhuma carta encontrada para os filtros aplicados.' }
+          </p>
+        ) : (
           <SavedCards
             deck={ deck }
             onClickRemoveBtn={ onClickRemoveBtn }
@@ -83,7 +110,9 @@ DeckSection.propTypes = {
   nameFilter: PropTypes.string.isRequired,
   rarityFilter: PropTypes.string.isRequired,
   trunfoFilter: PropTypes.bool.isRequired,
+  onClearFiltersClick: PropTypes.func.isRequired,
   onClickRemoveBtn: PropTypes.func.isRequired,
+  totalCards: PropTypes.number.isRequired,
 };
 
 export default DeckSection;
